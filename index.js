@@ -51,26 +51,29 @@ app.get("/authors/:id", (request, response) => {
 });
 
 // ----------- post request and generate an id for the new obj -------------
-app.post("/authors", (request, response) => {
+app.post("/authors/", (request, response) => {
   const obj = request.body;
   obj._id = authors.length + 1;
   authors.push(obj);
   return response.status(201).json(obj);
 });
 
-app.delete("authors/:id", (request, response) => {
-  const id = request.params.id;
-  authors = authors.filter((author) => author._id != id);
-  return response.status(200).json({});
-});
-
-app.put("authors/:id", (request, response) => {
+// ------- PUT REQUEST -------
+app.put("/authors/:id", (request, response) => {
   const id = request.params.id;
   const obj = request.body;
   const index = authors.findIndex((author) => author._id === +id);
   authors[index] = obj;
   return response.status(200).json(obj);
 });
+
+// ------- DELETE REQUEST -------
+app.delete("/authors/:id", (request, response) => {
+  const id = request.params.id;
+  authors = authors.filter((author) => author._id != id);
+  return response.status(200).json({});
+});
+
 // --------- active server in port --------
 app.listen(3001, () =>
   console.log("Server in port 3001! http://localhost:3001/")
